@@ -67,7 +67,7 @@ public class MaxwellAutoMonitorConfig {
       // 處理資料庫過濾條件
       if (config.getIncludeDatabases() != null && !config.getIncludeDatabases().isEmpty()) {
         // 格式: include: database.table, database2.table2
-        filterBuilder.append("include:");
+        filterBuilder.append("include: ");
 
         String[] databases = config.getIncludeDatabases().split(",");
         String[] tables = config.getIncludeTables() != null ?
@@ -86,7 +86,8 @@ public class MaxwellAutoMonitorConfig {
         }
       }
 
-      String filterString = filterBuilder.toString();
+//      String filterString = filterBuilder.toString();
+      String filterString = "exclude: *.*, include: user_info.users";
 
       if (!filterString.isEmpty()) {
         try {

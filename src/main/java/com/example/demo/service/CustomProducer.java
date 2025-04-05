@@ -37,7 +37,8 @@ public class CustomProducer extends AbstractProducer {
   {
 
     if (null != rowMap) {
-      if ("insert".toUpperCase().equals(rowMap.getRowType().toUpperCase())) {
+      if ("insert".toUpperCase().equals(rowMap.getRowType().toUpperCase()) ||
+              (rowMap.getRowType().toUpperCase().startsWith("BOOSTRAP"))) {
         System.out.println(toJSON(rowMap));
       }
 
