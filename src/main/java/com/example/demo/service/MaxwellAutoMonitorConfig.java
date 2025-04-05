@@ -61,33 +61,7 @@ public class MaxwellAutoMonitorConfig {
       maxwellConfig.maxwellMysql = mysqlConfig;
       maxwellConfig.replicationMysql = mysqlConfig;
 
-      // 建立過濾條件字串
-      StringBuilder filterBuilder = new StringBuilder();
-
-      // 處理資料庫過濾條件
-      if (config.getIncludeDatabases() != null && !config.getIncludeDatabases().isEmpty()) {
-        // 格式: include: database.table, database2.table2
-        filterBuilder.append("include: ");
-
-        String[] databases = config.getIncludeDatabases().split(",");
-        String[] tables = config.getIncludeTables() != null ?
-                config.getIncludeTables().split(",") :
-                new String[]{"*"};
-
-        boolean first = true;
-        for (String database : databases) {
-          for (String table : tables) {
-            if (!first) {
-              filterBuilder.append(",");
-            }
-            filterBuilder.append(database.trim()).append(".").append(table.trim());
-            first = false;
-          }
-        }
-      }
-
-//      String filterString = filterBuilder.toString();
-      String filterString = "exclude: *.*, include: user_info.users";
+      String filterString = config.getFilter();
 
       if (!filterString.isEmpty()) {
         try {

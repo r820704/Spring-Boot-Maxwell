@@ -8,5 +8,4 @@ maxwell:
   user: root
   password: root
   database: mydb
-  include-databases: user_info
-  include-tables: users
+  filter: "exclude: *.*, include: user_info.users"

@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("maxwell")
 public class Config {
 
-
   private String host;
 
   private int port = 3306;
@@ -18,11 +17,7 @@ public class Config {
 
   private String database;
 
-
-  private String includeDatabases;
-
-  private  String includeTables;
-
+  private String filter;
 
 
 }
