@@ -33,32 +33,42 @@ public class CustomProducer extends AbstractProducer {
   }
 
   @Override
-  public void push(RowMap r) throws Exception
+  public void push(RowMap rowMap) throws Exception
   {
-    // filtering out DDL and heartbeat rows
-    if(!r.shouldOutput(outputConfig)) {
-      // though not strictly necessary (as skipping has no side effects), we store our position,
-      // so maxwell won't have to "re-skip" this position if crashing and restarting.
-      context.setPosition(r.getPosition());
-      return;
+
+    if (null != rowMap) {
+      if ("insert".toUpperCase().equals(rowMap.getRowType().toUpperCase())) {
+        System.out.println(toJSON(rowMap));
+      }
+
     }
+    this.context.setPosition(rowMap);
 
-    // store uncommitted row in buffer
-    txRows.add(r);
 
-    if(r.isTXCommit()) {
-      // This row is the final and closing row of a transaction. Stream all rows of buffered
-      // transaction to stdout
-      System.out.print(headerFormat.replace("%xid%", r.getXid().toString()));
-      txRows.stream()
-              .map(CustomProducer::toJSON)
-              .forEach(System.out::println);
-      txRows.clear();
-
-      // Only now, after finally having "persisted" all buffered rows to stdout is it safe to
-      // store the producers position.
-      context.setPosition(r.getPosition());
-    }
+//    // filtering out DDL and heartbeat rows
+//    if(!r.shouldOutput(outputConfig)) {
+//      // though not strictly necessary (as skipping has no side effects), we store our position,
+//      // so maxwell won't have to "re-skip" this position if crashing and restarting.
+//      context.setPosition(r.getPosition());
+//      return;
+//    }
+//
+//    // store uncommitted row in buffer
+//    txRows.add(r);
+//
+//    if(r.isTXCommit()) {
+//      // This row is the final and closing row of a transaction. Stream all rows of buffered
+//      // transaction to stdout
+//      System.out.print(headerFormat.replace("%xid%", r.getXid().toString()));
+//      txRows.stream()
+//              .map(CustomProducer::toJSON)
+//              .forEach(System.out::println);
+//      txRows.clear();
+//
+//      // Only now, after finally having "persisted" all buffered rows to stdout is it safe to
+//      // store the producers position.
+//      context.setPosition(r.getPosition());
+//    }
   }
 
   private static String toJSON(RowMap row) {
