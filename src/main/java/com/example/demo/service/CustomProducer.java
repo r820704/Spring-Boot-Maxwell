@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.zendesk.maxwell.MaxwellContext;
 import com.zendesk.maxwell.producer.AbstractProducer;
 import com.zendesk.maxwell.row.RowMap;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.Collection;
  *  - Each transaction is stored in one chunk and delivered in order - no interleaving of transactions ever occur.
  *  - Rolled back transactions are not stored on the binlog and hence never delivered.
  */
+@Service
 public class CustomProducer extends AbstractProducer {
   private final String headerFormat;
   private final Collection<RowMap> txRows = new ArrayList<>();
