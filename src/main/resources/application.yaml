@@ -8,3 +8,5 @@ maxwell:
   user: root
   password: root
   database: mydb
+  include-databases: user_info
+  include-tables: users
